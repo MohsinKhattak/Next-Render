@@ -1,9 +1,18 @@
-export default function SSRPage() {
+async function getServerData() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1", {
+    cache: "no-store",
+  });
+  return res.json();
+}
+
+export default async function SSRPage() {
+  const post = await getServerData();
+
   return (
-    <div className="flex w-full items-center flex-column min-h-screen">
-      <h1 className="text-3xl font-bold mx-auto">
-        This is a Server Side Rendered Page
-      </h1>
+    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+      <h1>Server-Side Rendering (SSR)</h1>
+      <h2>{post.title}</h2>
+      <p>{post.body}</p>
     </div>
   );
 }
